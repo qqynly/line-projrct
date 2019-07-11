@@ -30,7 +30,7 @@ gulp.task('compilesass', () => {
         .pipe(gulp.dest('dist/css'));
 });
 
-//压缩css文件*****
+//压缩css文件
 gulp.task('uglifycss', () => {
     return gulp.src('src/css/*.css')//引入文件
         .pipe(minicss())//执行压缩插件
@@ -40,6 +40,12 @@ gulp.task('uglifycss', () => {
         .pipe(gulp.dest('dist/css'));//输出
 });
 
+
+//复制压缩好的css代码*****
+gulp.task('copy', function () {
+    return gulp.src('src/css/*.min.css')
+        .pipe(gulp.dest('dist/css'))
+});
 
 //压缩js
 gulp.task('uglifyjs', () => {
@@ -89,5 +95,5 @@ gulp.task('babeljs', () => {
 
 
 gulp.task('default', function () {//default:默认名称，编译时可以省略
-    watch(['src/*.html', 'src/style/*.css', 'src/images/*.png', 'src/script/*.js'], gulp.parallel('uglifyhtml', 'uglifycss', 'uglifypng', 'babeljs'));
+    watch(['src/*.html', 'src/css/*.min.css', 'src/images/*.png', 'src/script/*.js'], gulp.parallel('uglifyhtml', 'copy', 'uglifypng', 'babeljs'));
 });
